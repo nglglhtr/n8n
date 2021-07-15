@@ -259,8 +259,11 @@ export class GoogleCalendar implements INodeType {
 						};
 						if (additionalFields.attendees) {
 							body.attendees = [];
-							(additionalFields.attendees as string[]).forEach(attendee => {
-								body.attendees!.push.apply(body.attendees, attendee.split(',').map(a => a.trim()).map(email => ({ email })));
+							(additionalFields.attendees as string[]).forEach(obj => {
+								body.attendees!.push({
+									email: JSON.parse(obj).email,
+									responseStatus: JSON.parse(obj).responseStatus
+								});
 							});
 						}
 						if (additionalFields.color) {
